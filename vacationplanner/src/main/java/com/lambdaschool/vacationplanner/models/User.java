@@ -46,6 +46,10 @@ public class User extends Auditable
     @JoinTable(name = "USERSUGGESTIONS", joinColumns = {@JoinColumn(name = "userid")}, inverseJoinColumns = {@JoinColumn(name = "suggestionid")})
     private List<Suggestions> usersuggestions = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "messageauthor")
+    @JsonIgnoreProperties("messageauthor")
+    private List<Messages> usermessages = new ArrayList<>();
+
     public User()
     {
     }
@@ -148,5 +152,15 @@ public class User extends Auditable
     public void setUsersuggestions(List<Suggestions> usersuggestions)
     {
         this.usersuggestions = usersuggestions;
+    }
+
+    public List<Messages> getUsermessages()
+    {
+        return usermessages;
+    }
+
+    public void setUsermessages(List<Messages> usermessages)
+    {
+        this.usermessages = usermessages;
     }
 }
