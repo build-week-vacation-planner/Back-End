@@ -38,6 +38,14 @@ public class User extends Auditable
     @JsonIgnoreProperties("user")
     private List<Quote> quotes = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "participants")
+    @JsonIgnoreProperties("participants")
+    private List<Vacation> vacations = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "USERSUGGESTIONS", joinColumns = {@JoinColumn(name = "userid")}, inverseJoinColumns = {@JoinColumn(name = "suggestionid")})
+    private List<Suggestions> usersuggestions = new ArrayList<>();
+
     public User()
     {
     }
@@ -120,5 +128,25 @@ public class User extends Auditable
         }
 
         return rtnList;
+    }
+
+    public List<Vacation> getVacations()
+    {
+        return vacations;
+    }
+
+    public void setVacations(List<Vacation> vacations)
+    {
+        this.vacations = vacations;
+    }
+
+    public List<Suggestions> getUsersuggestions()
+    {
+        return usersuggestions;
+    }
+
+    public void setUsersuggestions(List<Suggestions> usersuggestions)
+    {
+        this.usersuggestions = usersuggestions;
     }
 }

@@ -1,6 +1,6 @@
 package com.lambdaschool.vacationplanner.controllers;
 
-import com.lambdaschool.starthere.models.APIOpenLibrary;
+import com.lambdaschool.vacationplanner.models.APIOpenLibrary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
