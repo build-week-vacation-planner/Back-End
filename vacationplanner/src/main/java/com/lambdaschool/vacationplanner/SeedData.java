@@ -1,17 +1,17 @@
 package com.lambdaschool.vacationplanner;
 
-import com.lambdaschool.vacationplanner.models.Quote;
-import com.lambdaschool.vacationplanner.models.Role;
-import com.lambdaschool.vacationplanner.models.User;
-import com.lambdaschool.vacationplanner.models.UserRoles;
+import com.lambdaschool.vacationplanner.models.*;
 import com.lambdaschool.vacationplanner.services.RoleService;
 import com.lambdaschool.vacationplanner.services.UserService;
+import com.lambdaschool.vacationplanner.services.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 @Transactional
 @Component
@@ -22,6 +22,9 @@ public class SeedData implements CommandLineRunner
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    VacationService vacationService;
 
 
     @Override
@@ -43,7 +46,13 @@ public class SeedData implements CommandLineRunner
         User u1 = new User("admin", "password", admins);
         u1.getQuotes().add(new Quote("A creative man is motivated by the desire to achieve, not by the desire to beat others", u1));
         u1.getQuotes().add(new Quote("The question isn't who is going to let me; it's who is going to stop me.", u1));
-        userService.save(u1);
+        u1 = userService.save(u1);
+        Vacation hawaiiVacation = new Vacation("Hawaii", "Go for a hike", "January 7", "January 15");
+        VacationParticipants testPart = new VacationParticipants(u1, hawaiiVacation);
+        List<VacationParticipants> testPartList = new ArrayList<>();
+        testPartList.add(testPart);
+        hawaiiVacation.setVacationParticipants(testPartList);
+        vacationService.save(hawaiiVacation);
 
         // data, user
         ArrayList<UserRoles> datas = new ArrayList<>();

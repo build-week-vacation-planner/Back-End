@@ -38,17 +38,14 @@ public class User extends Auditable
     @JsonIgnoreProperties("user")
     private List<Quote> quotes = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "participants")
-    @JsonIgnoreProperties("participants")
-    private List<Vacation> vacations = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("user")
+    private List<VacationParticipants> vacationParticipants = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "USERSUGGESTIONS", joinColumns = {@JoinColumn(name = "userid")}, inverseJoinColumns = {@JoinColumn(name = "suggestionid")})
     private List<Suggestions> usersuggestions = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "messageauthor")
-    @JsonIgnoreProperties("messageauthor")
-    private List<Messages> usermessages = new ArrayList<>();
 
     public User()
     {
@@ -134,14 +131,14 @@ public class User extends Auditable
         return rtnList;
     }
 
-    public List<Vacation> getVacations()
+    public List<VacationParticipants> getVacationParticipants()
     {
-        return vacations;
+        return vacationParticipants;
     }
 
-    public void setVacations(List<Vacation> vacations)
+    public void setVacationParticipants(List<VacationParticipants> vacationParticipants)
     {
-        this.vacations = vacations;
+        this.vacationParticipants = vacationParticipants;
     }
 
     public List<Suggestions> getUsersuggestions()
@@ -152,15 +149,5 @@ public class User extends Auditable
     public void setUsersuggestions(List<Suggestions> usersuggestions)
     {
         this.usersuggestions = usersuggestions;
-    }
-
-    public List<Messages> getUsermessages()
-    {
-        return usermessages;
-    }
-
-    public void setUsermessages(List<Messages> usermessages)
-    {
-        this.usermessages = usermessages;
     }
 }

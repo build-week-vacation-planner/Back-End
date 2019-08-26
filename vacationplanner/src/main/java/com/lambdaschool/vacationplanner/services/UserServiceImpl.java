@@ -1,11 +1,10 @@
 package com.lambdaschool.vacationplanner.services;
 
 import com.lambdaschool.vacationplanner.exceptions.ResourceNotFoundException;
-import com.lambdaschool.vacationplanner.models.Quote;
-import com.lambdaschool.vacationplanner.models.User;
-import com.lambdaschool.vacationplanner.models.UserRoles;
+import com.lambdaschool.vacationplanner.models.*;
 import com.lambdaschool.vacationplanner.repository.RoleRepository;
 import com.lambdaschool.vacationplanner.repository.UserRepository;
+import com.lambdaschool.vacationplanner.repository.VacationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +27,9 @@ public class UserServiceImpl implements UserDetailsService, UserService
 
     @Autowired
     private RoleRepository rolerepos;
+
+    @Autowired
+    private VacationRepository vacationrepos;
 
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
@@ -141,5 +143,17 @@ public class UserServiceImpl implements UserDetailsService, UserService
             throw new ResourceNotFoundException(authentication.getName());
         }
 
+    }
+
+    @Override
+    public List<VacationParticipants> findUserVacations(long id)
+    {
+        List<VacationParticipants> list = new ArrayList<>();
+
+        return list;
+//        quoterepos.findAll().iterator().forEachRemaining(list::add);
+//
+//        list.removeIf(q -> !q.getUser().getUsername().equalsIgnoreCase(username));
+//        return list;
     }
 }

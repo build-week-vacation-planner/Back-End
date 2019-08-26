@@ -20,15 +20,15 @@ public class Vacation
     @Column(name = "thingstodo")
     private String thingstodo;
 
-    @Column(name = "date")
-    private String vacationdate;
+    @Column(name = "startdate")
+    private String startdate;
 
+    @Column(name = "enddate")
+    private String enddate;
 
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "PARTICIPANTS", joinColumns = {@JoinColumn(name = "vacationid")}, inverseJoinColumns = {@JoinColumn(name = "userid")})
-    @JsonIgnoreProperties("vacations")
-    private List<User> participants = new ArrayList<>();
+    @OneToMany(mappedBy = "vacation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("vacation")
+    private List<VacationParticipants> vacationParticipants = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "VACATIONSUGGESTIONS", joinColumns = {@JoinColumn(name = "vacationid")}, inverseJoinColumns = {@JoinColumn(name = "suggestionid")})
@@ -38,12 +38,32 @@ public class Vacation
     {
     }
 
-    public Vacation(String vacationlocation, String thingstodo, String vacationdate, List<User> participants)
+    public Vacation(String vacationlocation, String thingstodo, String startdate, String enddate)
     {
         this.vacationlocation = vacationlocation;
         this.thingstodo = thingstodo;
-        this.vacationdate = vacationdate;
-        this.participants = participants;
+        this.startdate = startdate;
+        this.enddate = enddate;
+    }
+
+    public String getStartdate()
+    {
+        return startdate;
+    }
+
+    public void setStartdate(String startdate)
+    {
+        this.startdate = startdate;
+    }
+
+    public String getEnddate()
+    {
+        return enddate;
+    }
+
+    public void setEnddate(String enddate)
+    {
+        this.enddate = enddate;
     }
 
     public long getVacationid()
@@ -76,25 +96,14 @@ public class Vacation
         this.thingstodo = thingstodo;
     }
 
-    public String getVacationdate()
+    public List<VacationParticipants> getVacationParticipants()
     {
-        return vacationdate;
+        return vacationParticipants;
     }
 
-    public void setVacationdate(String vacationdate)
+    public void setVacationParticipants(List<VacationParticipants> vacationParticipants)
     {
-        this.vacationdate = vacationdate;
-    }
-
-
-    public List<User> getParticipants()
-    {
-        return participants;
-    }
-
-    public void setParticipants(List<User> participants)
-    {
-        this.participants = participants;
+        this.vacationParticipants = vacationParticipants;
     }
 
     public List<Suggestions> getVacationsuggestions()
