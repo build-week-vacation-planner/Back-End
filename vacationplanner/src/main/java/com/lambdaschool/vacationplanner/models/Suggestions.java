@@ -17,13 +17,9 @@ public class Suggestions
     @Column(name = "suggest")
     private String suggest;
 
-    @ManyToMany(mappedBy = "vacationsuggestions")
-    @JsonIgnoreProperties("vacationsuggestions")
-    private List<Vacation> vacationsuggestion = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "usersuggestions")
-    @JsonIgnoreProperties("usersuggestions")
-    private List<User> usersuggestions = new ArrayList<>();
+    @OneToMany(mappedBy = "suggestions", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("suggestions")
+    private List<VacationSuggestion> vacationSuggestions = new ArrayList<>();
 
     public Suggestions()
     {
@@ -52,25 +48,5 @@ public class Suggestions
     public void setSuggest(String suggest)
     {
         this.suggest = suggest;
-    }
-
-    public List<Vacation> getVacationsuggestion()
-    {
-        return vacationsuggestion;
-    }
-
-    public void setVacationsuggestion(List<Vacation> vacationsuggestion)
-    {
-        this.vacationsuggestion = vacationsuggestion;
-    }
-
-    public List<User> getUsersuggestions()
-    {
-        return usersuggestions;
-    }
-
-    public void setUsersuggestions(List<User> usersuggestions)
-    {
-        this.usersuggestions = usersuggestions;
     }
 }

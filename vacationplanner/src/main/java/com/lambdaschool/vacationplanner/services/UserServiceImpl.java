@@ -148,12 +148,10 @@ public class UserServiceImpl implements UserDetailsService, UserService
     @Override
     public List<VacationParticipants> findUserVacations(long id)
     {
-        List<VacationParticipants> list = new ArrayList<>();
+        User currentUser = findUserById(id);
+
+        List<VacationParticipants> list = currentUser.getVacationParticipants();
 
         return list;
-//        quoterepos.findAll().iterator().forEachRemaining(list::add);
-//
-//        list.removeIf(q -> !q.getUser().getUsername().equalsIgnoreCase(username));
-//        return list;
     }
 }

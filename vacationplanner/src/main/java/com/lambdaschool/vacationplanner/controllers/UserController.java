@@ -1,6 +1,7 @@
 package com.lambdaschool.vacationplanner.controllers;
 
 import com.lambdaschool.vacationplanner.models.User;
+import com.lambdaschool.vacationplanner.models.VacationParticipants;
 import com.lambdaschool.vacationplanner.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,5 +107,12 @@ public class UserController
 
         userService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}/vacations", produces = {"application/json"})
+    public ResponseEntity<?> getVacationsByUser(HttpServletRequest request, @PathVariable Long id)
+    {
+        List<VacationParticipants> vp = userService.findUserVacations(id);
+        return new ResponseEntity<>(vp, HttpStatus.OK);
     }
 }

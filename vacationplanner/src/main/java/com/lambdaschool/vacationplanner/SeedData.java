@@ -2,6 +2,7 @@ package com.lambdaschool.vacationplanner;
 
 import com.lambdaschool.vacationplanner.models.*;
 import com.lambdaschool.vacationplanner.services.RoleService;
+import com.lambdaschool.vacationplanner.services.SuggestionService;
 import com.lambdaschool.vacationplanner.services.UserService;
 import com.lambdaschool.vacationplanner.services.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class SeedData implements CommandLineRunner
 
     @Autowired
     VacationService vacationService;
+
+    @Autowired
+    SuggestionService suggestionService;
 
 
     @Override
@@ -59,7 +63,13 @@ public class SeedData implements CommandLineRunner
         datas.add(new UserRoles(new User(), r3));
         datas.add(new UserRoles(new User(), r2));
         User u2 = new User("cinnamon", "1234567", datas);
-        userService.save(u2);
+        u2 = userService.save(u2);
+        Vacation hawaiiVacation2 = new Vacation("Hawaii", "Go for a hike", "December 7", "January 15");
+        VacationParticipants testPart2 = new VacationParticipants(u2, hawaiiVacation2);
+        List<VacationParticipants> testPartList2 = new ArrayList<>();
+        testPartList2.add(testPart2);
+        hawaiiVacation2.setVacationParticipants(testPartList2);
+        vacationService.save(hawaiiVacation2);
 
         // user
         ArrayList<UserRoles> users = new ArrayList<>();
@@ -73,11 +83,24 @@ public class SeedData implements CommandLineRunner
         users = new ArrayList<>();
         users.add(new UserRoles(new User(), r2));
         User u4 = new User("Bob", "password", users);
-        userService.save(u4);
+        u4 = userService.save(u4);
 
         users = new ArrayList<>();
         users.add(new UserRoles(new User(), r2));
         User u5 = new User("Jane", "password", users);
-        userService.save(u5);
+        u5 = userService.save(u5);
+
+        Vacation newVacation = new Vacation("London", "Big Ben", "August 21", "August 28");
+        List<VacationParticipants> newParticipants = new ArrayList<>();
+        newParticipants.add(new VacationParticipants(u4, newVacation));
+        newVacation.setVacationParticipants(newParticipants);
+        newVacation = vacationService.save(newVacation);
+
+        Suggestions suggestion = new Suggestions("Go for a walk");
+        suggestion = suggestionService.save(suggestion);
+        List<VacationSuggestion> newSuggestions = new ArrayList<>();
+        VacationSuggestion newVacationSuggestion = new VacationSuggestion(u4, newVacation, suggestion);
+        newSuggestions.add(newVacationSuggestion);
+        newVacation.setVacationSuggestions(newSuggestions);
     }
 }

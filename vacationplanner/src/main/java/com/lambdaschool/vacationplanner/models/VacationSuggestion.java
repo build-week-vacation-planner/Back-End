@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "vacationparticipants")
-public class VacationParticipants implements Serializable
+@Table(name = "vacationsuggestion")
+public class VacationSuggestion implements Serializable
 {
     @Id
     @ManyToOne
@@ -21,14 +21,21 @@ public class VacationParticipants implements Serializable
     @JsonIgnoreProperties(value = {"vacationSuggestions", "vacationParticipants"})
     private Vacation vacation;
 
-    public VacationParticipants()
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "suggestionid")
+    @JsonIgnoreProperties(value = {"vacationSuggestions", "vacationParticipants"})
+    private Suggestions suggestions;
+
+    public VacationSuggestion()
     {
     }
 
-    public VacationParticipants(User user, Vacation vacation)
+    public VacationSuggestion(User user, Vacation vacation, Suggestions suggestions)
     {
         this.user = user;
         this.vacation = vacation;
+        this.suggestions = suggestions;
     }
 
     public User getUser()
@@ -49,5 +56,15 @@ public class VacationParticipants implements Serializable
     public void setVacation(Vacation vacation)
     {
         this.vacation = vacation;
+    }
+
+    public Suggestions getSuggestions()
+    {
+        return suggestions;
+    }
+
+    public void setSuggestions(Suggestions suggestions)
+    {
+        this.suggestions = suggestions;
     }
 }

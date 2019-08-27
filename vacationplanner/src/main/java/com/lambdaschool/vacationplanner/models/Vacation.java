@@ -30,9 +30,9 @@ public class Vacation
     @JsonIgnoreProperties("vacation")
     private List<VacationParticipants> vacationParticipants = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "VACATIONSUGGESTIONS", joinColumns = {@JoinColumn(name = "vacationid")}, inverseJoinColumns = {@JoinColumn(name = "suggestionid")})
-    private List<Suggestions> vacationsuggestions = new ArrayList<>();
+    @OneToMany(mappedBy = "vacation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("vacation")
+    private List<VacationSuggestion> vacationSuggestions = new ArrayList<>();
 
     public Vacation()
     {
@@ -44,6 +44,15 @@ public class Vacation
         this.thingstodo = thingstodo;
         this.startdate = startdate;
         this.enddate = enddate;
+    }
+
+    public Vacation(String vacationlocation, String thingstodo, String startdate, String enddate, List<VacationParticipants> vacationParticipants)
+    {
+        this.vacationlocation = vacationlocation;
+        this.thingstodo = thingstodo;
+        this.startdate = startdate;
+        this.enddate = enddate;
+        this.vacationParticipants = vacationParticipants;
     }
 
     public String getStartdate()
@@ -106,13 +115,13 @@ public class Vacation
         this.vacationParticipants = vacationParticipants;
     }
 
-    public List<Suggestions> getVacationsuggestions()
+    public List<VacationSuggestion> getVacationSuggestions()
     {
-        return vacationsuggestions;
+        return vacationSuggestions;
     }
 
-    public void setVacationsuggestions(List<Suggestions> vacationsuggestions)
+    public void setVacationSuggestions(List<VacationSuggestion> vacationSuggestions)
     {
-        this.vacationsuggestions = vacationsuggestions;
+        this.vacationSuggestions = vacationSuggestions;
     }
 }
