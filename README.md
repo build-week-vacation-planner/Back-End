@@ -19,6 +19,7 @@
 
 ### GET /users/user/{userid}
 > Returns User by User ID
+
     {
         "userid": #,
         "username": "username",
