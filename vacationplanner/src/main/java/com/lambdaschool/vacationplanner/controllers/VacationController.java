@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,5 +42,27 @@ public class VacationController
         responseHeaders.setLocation(newVacationURI);
 
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "vacation/{vacationid}", consumes = {"application/json"}, produces = {"application/json"})
+    public  ResponseEntity<?> updateVacation(HttpServletRequest request, @Valid @RequestBody Vacation updatedVacation, @PathVariable long vacationid)
+    {
+        vacationService.update(updatedVacation, vacationid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "vacation/delete/{vacationid}")
+    public ResponseEntity<?> deleteVacationById(HttpServletRequest request, @PathVariable long vacationid)
+    {
+        vacationService.delete(vacationid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "vacation/{vacationid}", produces = {"application/json"})
+    public ResponseEntity<?> getVacationById(HttpServletRequest request, @PathVariable long vacationid)
+    {
+        Vacation v = vacationService.findById(vacationid);
+
+        return new ResponseEntity<>(v, HttpStatus.OK);
     }
 }

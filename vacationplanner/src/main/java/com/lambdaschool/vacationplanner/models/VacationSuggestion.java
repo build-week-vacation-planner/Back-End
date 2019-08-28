@@ -12,7 +12,7 @@ public class VacationSuggestion implements Serializable
     @Id
     @ManyToOne
     @JoinColumn(name = "userid")
-    @JsonIgnoreProperties(value = {"vacationSuggestions", "vacationParticipants"})
+    @JsonIgnoreProperties(value = {"vacationSuggestions", "vacationParticipants", "userRoles", "quotes", "authority"})
     private User user;
 
     @Id

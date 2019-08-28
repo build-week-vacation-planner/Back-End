@@ -146,12 +146,23 @@ public class UserServiceImpl implements UserDetailsService, UserService
     }
 
     @Override
-    public List<VacationParticipants> findUserVacations(long id)
+    public List<Vacation> findUserVacations(long id)
     {
         User currentUser = findUserById(id);
 
+        List<Vacation> currentUserVacations = new ArrayList<>();
         List<VacationParticipants> list = currentUser.getVacationParticipants();
+        for (VacationParticipants v : list)
+        {
+            currentUserVacations.add(v.getVacation());
+        }
+        return currentUserVacations;
+    }
 
-        return list;
+    @Override
+    public User findByUserName(String name)
+    {
+        User currentUser = userrepos.findByUsername(name);
+        return currentUser;
     }
 }

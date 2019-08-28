@@ -19,6 +19,32 @@ public class SuggestionServiceImpl implements SuggestionService
         Suggestions newSuggestion = new Suggestions();
         newSuggestion.setSuggest(suggestions.getSuggest());
 
-        return suggestionsRepos.save(newSuggestion);
+        newSuggestion = suggestionsRepos.save(newSuggestion);
+        return newSuggestion;
+    }
+
+    @Transactional
+    @Override
+    public Suggestions update(Suggestions suggestions, long id)
+    {
+        Suggestions currentSuggestion = suggestionsRepos.findBySuggestionid(id);
+
+        if (currentSuggestion != null)
+        {
+            if (id == currentSuggestion.getSuggestionid())
+            {
+                if (suggestions.getSuggest() != null)
+                {
+                    currentSuggestion.setSuggest(suggestions.getSuggest());
+                }
+            }
+        }
+        return suggestionsRepos.save(currentSuggestion);
+    }
+
+    @Override
+    public void delete(long id)
+    {
+        suggestionsRepos.deleteById(id);
     }
 }

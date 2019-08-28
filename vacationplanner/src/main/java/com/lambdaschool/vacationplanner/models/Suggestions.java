@@ -49,4 +49,14 @@ public class Suggestions
     {
         this.suggest = suggest;
     }
+
+    public List<VacationSuggestion> getVacationSuggestions()
+    {
+        return vacationSuggestions;
+    }
+
+    public void setVacationSuggestions(List<VacationSuggestion> vacationSuggestions)
+    {
+        this.vacationSuggestions = vacationSuggestions;
+    }
 }

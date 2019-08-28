@@ -1,6 +1,7 @@
 package com.lambdaschool.vacationplanner.controllers;
 
 import com.lambdaschool.vacationplanner.models.User;
+import com.lambdaschool.vacationplanner.models.Vacation;
 import com.lambdaschool.vacationplanner.models.VacationParticipants;
 import com.lambdaschool.vacationplanner.services.UserService;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -63,6 +65,17 @@ public class UserController
         return new ResponseEntity<>(authentication.getPrincipal(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/getcurrentuser", produces = {"application/json"})
+    @ResponseBody
+    public ResponseEntity<?> getCurrentUser(HttpServletRequest request)
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        User currentUser = userService.findByUserName(authentication.getName());
+
+        return new ResponseEntity<>(currentUser, HttpStatus.OK);
+    }
+
 
     @PostMapping(value = "/user",
                  consumes = {"application/json"},
@@ -112,7 +125,7 @@ public class UserController
     @GetMapping(value = "/{id}/vacations", produces = {"application/json"})
     public ResponseEntity<?> getVacationsByUser(HttpServletRequest request, @PathVariable Long id)
     {
-        List<VacationParticipants> vp = userService.findUserVacations(id);
+        List<Vacation> vp = userService.findUserVacations(id);
         return new ResponseEntity<>(vp, HttpStatus.OK);
     }
 }

@@ -46,6 +46,7 @@ public class Vacation
         this.enddate = enddate;
     }
 
+
     public Vacation(String vacationlocation, String thingstodo, String startdate, String enddate, List<VacationParticipants> vacationParticipants)
     {
         this.vacationlocation = vacationlocation;

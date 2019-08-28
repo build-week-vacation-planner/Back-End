@@ -20,5 +20,7 @@ public interface UserService
     User update(User user, long id);
 
     // find all vacations by user ID
-    List<VacationParticipants> findUserVacations(long id);
+    List<Vacation> findUserVacations(long id);
+
+    User findByUserName(String name);
 }
